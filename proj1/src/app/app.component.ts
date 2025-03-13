@@ -4,9 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   //templateUrl: './app.component.html',
   template: `
-  <h1>{{title}}</h1>
 
-
+  <app-example data="merhaba"> Content</app-example>
      
     
     `,
