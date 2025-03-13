@@ -703,6 +703,7 @@ Angular'da bileşenler arasındaki iletişim için **@Input(), @Output(), Servic
 
 # 7.) Component Life Cycle
 
+
 ### **Angular Component Life Cycle Hooks Nedir?** 🚀  
 
 **Component Life Cycle Hooks**, Angular bileşenlerinin **oluşturulma, güncellenme ve yok edilme süreçlerini kontrol etmek için** kullanılan özel metodlardır.  
@@ -850,3 +851,195 @@ export class ExampleComponent implements OnDestroy {
 ✔ **`ngOnDestroy()`** → Component yok edilmeden önce çalışır, bellek sızıntılarını önlemek için kullanılır.  
 
 Bunları kullanarak **performanslı ve yönetilebilir Angular uygulamaları geliştirebilirsiniz!** 🚀
+
+
+# 8.) form
+# **Angular Form Nedir?** 🚀  
+
+**Angular Form**, kullanıcıdan veri almak için kullanılan bir mekanizmadır. **Formlar**, kullanıcı girişlerini yönetmeyi, doğrulamayı ve göndermeyi sağlar.  
+
+Angular'da **iki farklı form yönetim yöntemi** vardır:  
+
+1️⃣ **Template-driven Forms (Şablon Tabanlı Formlar)** → **Basit formlar** için uygundur  
+2️⃣ **Reactive Forms (Tepkisel Formlar)** → **Daha karmaşık ve dinamik formlar** için uygundur  
+
+---
+
+# **1️⃣ Template-driven Forms (Şablon Tabanlı Formlar)**
+📌 **NgModel ile veri bağlama (Two-way binding)** yapılır.  
+📌 HTML içinde **doğrudan form yönetimi yapılır.**  
+📌 Daha küçük projeler ve **basit formlar** için uygundur.  
+
+### **✅ Kullanım Örneği**
+📌 Öncelikle **FormsModule**'ü **app.module.ts**'de ekleyelim:  
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';  // ✅ FormsModule eklenmeli
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, FormsModule],  // ✅ Buraya ekledik
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+### **🌟 Template-Driven Form HTML Kodu**
+📌 **`app.component.html`**  
+```html
+<form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+  <label>Adınız:</label>
+  <input type="text" name="name" ngModel required />
+  
+  <label>E-posta:</label>
+  <input type="email" name="email" ngModel required />
+
+  <button type="submit" [disabled]="userForm.invalid">Gönder</button>
+</form>
+```
+
+### **🌟 Component Kodu**
+📌 **`app.component.ts`**  
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  onSubmit(form: any) {
+    console.log('Form Verisi:', form.value);
+  }
+}
+```
+📌 **Özellikler:**  
+✔ `ngModel` → Input ile model arasındaki **veri bağlama** sağlar  
+✔ `#userForm="ngForm"` → Formu takip eder  
+✔ `ngSubmit` → Form gönderildiğinde tetiklenir  
+
+**🔹 Avantajları:**  
+✅ Kullanımı kolaydır  
+✅ Küçük ve basit projeler için idealdir  
+
+**🔸 Dezavantajları:**  
+❌ Büyük ve dinamik formlar için **kontrolü zor olabilir**  
+
+---
+
+# **2️⃣ Reactive Forms (Tepkisel Formlar)**
+📌 **TypeScript içinde form yönetimi yapılır.**  
+📌 **Daha esnek ve ölçeklenebilir** formlar için uygundur.  
+📌 **FormControl, FormGroup, FormBuilder** kullanılır.  
+
+### **✅ Kullanım Örneği**
+📌 Öncelikle **ReactiveFormsModule**'ü **app.module.ts**'de ekleyelim:  
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';  // ✅ ReactiveFormsModule eklenmeli
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, ReactiveFormsModule],  // ✅ Buraya ekledik
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+### **🌟 Reactive Form HTML Kodu**
+📌 **`app.component.html`**  
+```html
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <label>Adınız:</label>
+  <input type="text" formControlName="name" required />
+  
+  <label>E-posta:</label>
+  <input type="email" formControlName="email" required />
+
+  <button type="submit" [disabled]="userForm.invalid">Gönder</button>
+</form>
+```
+
+### **🌟 Component Kodu**
+📌 **`app.component.ts`**  
+```typescript
+import { Component } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  userForm = new FormGroup({
+    name: new FormControl(''),
+    email: new FormControl('')
+  });
+
+  onSubmit() {
+    console.log('Form Verisi:', this.userForm.value);
+  }
+}
+```
+📌 **Özellikler:**  
+✔ `formGroup` → Formun tüm alanlarını temsil eder  
+✔ `formControlName` → Input değerlerini yönetir  
+✔ `userForm.value` → Formun içindeki verilere erişir  
+
+**🔹 Avantajları:**  
+✅ **Daha fazla kontrol sağlar**  
+✅ **Büyük ve dinamik formlar** için uygundur  
+✅ Form doğrulamalarını TypeScript ile yapmaya imkan tanır  
+
+**🔸 Dezavantajları:**  
+❌ **Daha fazla kod yazmak gerekir**  
+
+---
+
+# **📌 Template-driven Forms vs. Reactive Forms**
+| **Özellik** | **Template-driven Forms** | **Reactive Forms** |
+|------------|----------------------|-----------------|
+| **Kodlama Şekli** | HTML odaklı | TypeScript odaklı |
+| **Veri Yönetimi** | `ngModel` ile bağlama | `FormControl` ve `FormGroup` kullanır |
+| **Karmaşıklık** | Basit formlar için iyi | Karmaşık formlar için uygun |
+| **Ölçeklenebilirlik** | Küçük projeler için iyi | Büyük projeler için ideal |
+
+---
+
+# **🎯 Form Doğrulama (Validation)**
+Formlarda **kullanıcı girişlerini doğrulamak** önemlidir. **Hem template-driven hem de reactive formda doğrulamalar yapılabilir.**  
+
+### **✅ Template-driven Form Doğrulama**
+```html
+<input type="email" name="email" ngModel required #emailRef="ngModel" />
+<p *ngIf="emailRef.invalid && emailRef.touched">Lütfen geçerli bir e-posta girin!</p>
+```
+
+### **✅ Reactive Form Doğrulama**
+```typescript
+import { Validators } from '@angular/forms';
+
+userForm = new FormGroup({
+  email: new FormControl('', [Validators.required, Validators.email])
+});
+```
+```html
+<p *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+  Lütfen geçerli bir e-posta girin!
+</p>
+```
+
+---
+
+# **🚀 Özet**
+✔ **Template-driven Forms** → Küçük ve basit formlar için uygundur  
+✔ **Reactive Forms** → Büyük ve dinamik formlar için daha iyidir  
+✔ **Form Validation (Doğrulama)** → Kullanıcı girişlerini kontrol etmek için kullanılır  
+
+Bunları kullanarak **güçlü ve dinamik formlar** oluşturabilirsiniz! 🚀
