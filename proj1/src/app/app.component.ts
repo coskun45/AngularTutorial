@@ -4,13 +4,14 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   //templateUrl: './app.component.html',
   template: `
-  <h1>{{title}}</h1>
 
+<app-createuser></app-createuser>
+<hr>
+<app-readuser></app-readuser>
 
      
     
-    `,
-  styleUrls: ['./app.component.scss']
+    `
 })
 export class AppComponent {
   title = 'proj1';
