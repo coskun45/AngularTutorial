@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductService } from './productservice';
 
 @Component({
   selector: 'app-root',
@@ -14,4 +15,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'proj1';
+  constructor(private productService:ProductService){
+    console.log(productService.getProducts())
+  }
 }
