@@ -4,13 +4,15 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   //templateUrl: './app.component.html',
   template: `
-  <h1>{{title}}</h1>
+  <a routerLink="home" routerLinkActive="active">Home</a> | 
+  <a routerLink="about" routerLinkActive="active">About</a> | 
+  <a routerLink="contact" routerLinkActive="active">Contact</a>  
+<hr>
+  <router-outlet></router-outlet>
 
-
-     
-    
     `,
-  styleUrls: ['./app.component.scss']
+  styles: [".active{color:red}"]
+  
 })
 export class AppComponent {
   title = 'proj1';
